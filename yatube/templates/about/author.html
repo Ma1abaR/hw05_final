@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Об авторе проекта{% endblock %}
+{% load static %}
+
+{% block content %}
+<body>
+<h1>Привет, меня зовут Артур</h1>
+  <p>
+    Я живу и работаю в городе Сочи. Давно мечтал о новой профессии. Выбор пал на Python разработчика.
+    А этой мой кот, по характеру Гарфилд, а зовут его Сеймур.
+  </p>
+  <p class="text-center"><img src="{% static 'img/semi.png' %}" width="330" height="300" alt="Сеймур"></p>
+</body>
+{% endblock %}
+
+

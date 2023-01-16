@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Избранные авторы
+{% endblock title %}
+
+{% block content %}
+  {% load thumbnail %}
+    <div class="container py-5">
+      {% include 'includes/switcher.html' %}
+      <h1>Последние обновления у избранных авторов</h1>
+      {% for post in page_obj %}
+        {% include 'includes/post_card.html' with display_group_link=True %}
+        {% if not forloop.last %}<hr>{% endif %}
+      {% endfor %}
+      {% include 'posts/includes/paginator.html' %}
+    </div>
+{% endblock %}
