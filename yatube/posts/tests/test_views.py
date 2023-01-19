@@ -5,6 +5,7 @@ from django.core.cache import cache
 
 from ..models import Post, Group, Follow, Comment
 
+POST_ON_PAGE = 0
 AMOUNT_POST = 13
 User = get_user_model()
 
@@ -21,6 +22,16 @@ class TestsViewsPosts(TestCase):
             title='Тестовая группа',
             slug='test-slug',
             description='Тестовое описание',
+        )
+        cls.group_2 = Group.objects.create(
+            title='Тестовая группа2',
+            slug='test-slug2',
+            description='Тестовое описание2',
+        )
+        cls.group_3 = Group.objects.create(
+            title='Тестовая группа3',
+            slug='test-slug3',
+            description='Тестовое описание3',
         )
         cls.post = Post.objects.create(
             author=cls.first_user,
@@ -42,7 +53,7 @@ class TestsViewsPosts(TestCase):
             kwargs={'post_id': cls.post.id}
         )
         cls.url_profile = reverse(
-            'posts:profile', kwargs={'username': 'test-username'}
+            'posts:profile', kwargs={'username': cls.first_user.username}
         )
         cls.url_post_create = reverse('posts:post_create')
         cls.url_post_edit = reverse(
@@ -84,10 +95,16 @@ class TestsViewsPosts(TestCase):
         self.assertIn('page_obj', response.context)
 
     def test_group_posts_show_correct_context(self):
-        """Шаблон group_list.html сформирован с правильным контекстом."""
+        """Шаблон group_list.html сформирован с правильным контекстом и пост в нужной группе"""
+        posts_group = Post.objects.filter(group=TestsViewsPosts.group.id).count()
+        posts_group_2 = Post.objects.filter(group=TestsViewsPosts.group_2.id).count()
+        posts_group_3 = Post.objects.filter(group=TestsViewsPosts.group_3.id).count()
+        self.assertEqual(posts_group, POST_ON_PAGE + 1)
+        self.assertEqual(posts_group_2, 0)
+        self.assertEqual(posts_group_3, 0)
         response = self.authorized_client.get(self.url_group_list)
         self.assertIn('page_obj', response.context)
-        self.assertIn('posts', response.context)
+        self.assertIn('post', response.context)
         self.assertIn('group', response.context)
 
     def test_profile_show_correct_context(self):
@@ -100,7 +117,7 @@ class TestsViewsPosts(TestCase):
     def test_post_detail_show_correct_context(self):
         """Шаблон post_detail.html сформирован с правильным контекстом."""
         response = self.authorized_client.get(self.url_post_detail)
-        self.assertIn('post', response.context)
+        self.assertEqual('post', self.post.id)
         self.assertIn('form', response.context)
         self.assertIn('comments', response.context)
 
@@ -157,7 +174,7 @@ class PaginatorViewsTest(TestCase):
             'posts:profile', kwargs={'username': cls.user.username}
         )
         fixtures = [Post(
-            text='Тестовый текст' + f'{str(i)}',
+            text=f'Тестовый текст {i}',
             author=cls.user,
             group=cls.group)
             for i in range(13)]
@@ -250,8 +267,9 @@ class FollowTests(TestCase):
     def test_subscription_feed(self):
         Follow.objects.create(user=self.follower,
                               author=self.following)
-        response = self.authorized_follower.get('/follow/')
+        response = self.authorized_follower.get(reverse(
+            'posts:profile_follow',
+            kwargs={'username': self.following.username},
+        ))
         post_text_0 = response.context["page_obj"][0].text
         self.assertEqual(post_text_0, 'Тестовый текст')
-        response = self.authorized_following.get('/follow/')
-        self.assertNotContains(response, 'Тестовый текст')

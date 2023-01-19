@@ -10,6 +10,7 @@ class PostForm(forms.ModelForm):
         labels = {
             'text': 'Текст поста',
             'group': 'Выбор группы для поста',
+            'image': 'Загрузите изображение'
         }
 
 

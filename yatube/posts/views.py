@@ -36,7 +36,6 @@ def group_posts(request, slug):
     page_obj = page_context(request, groups_posts)
     context = {
         'page_obj': page_obj,
-        'posts': groups_posts,
         'group': group,
     }
     return render(request, template, context)
@@ -165,8 +164,5 @@ def profile_follow(request, username):
 def profile_unfollow(request, username):
     """Функция для отписки от автора."""
     author = get_object_or_404(User, username=username)
-    user = request.user
-    follower = Follow.objects.filter(user=user, author=author)
-    if follower.exists():
-        follower.delete()
-    return redirect('posts:profile', username=author)
+    Follow.objects.filter(user=request.user, author=author).delete()
+    return redirect('posts:profile', username=username)

@@ -26,9 +26,9 @@ class PostModelTest(TestCase):
         )
 
     def test_post_model_have_correct_object_names(self):
-        post = PostModelTest.post
-        expected_name = post.text[:LENGTH_TEXT]
-        self.assertEqual(expected_name, str(post))
+        self.post = PostModelTest.post
+        expected_name = self.post.text[:LENGTH_TEXT]
+        self.assertEqual(expected_name, str(self.post))
 
     def test_group_model_have_correct_object_names(self):
         group = self.group

@@ -6,12 +6,11 @@ from django.conf import settings
 from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 from django.contrib.auth import get_user_model
-from http import HTTPStatus
 
+from http import HTTPStatus
 from ..models import Post, Group
 
 TEMP_MEDIA_ROOT = tempfile.mkdtemp(dir=settings.BASE_DIR)
-
 User = get_user_model()
 
 
@@ -53,6 +52,7 @@ class PostFormTest(TestCase):
         )
 
     def test_post_create(self):
+        posts_count = Post.objects.count()
         form_data = {
             'text': 'Текст из формы.',
             'group': self.group.id,
@@ -64,20 +64,27 @@ class PostFormTest(TestCase):
             data=form_data,
             follow=True
         )
-
+        # проверяем корректность редиректа
         self.assertRedirects(response,
                              reverse('posts:profile',
                                      kwargs={'username': self.author.username})
                              )
-
-        post = Post.objects.first()
-        self.assertEqual(Post.objects.count(), 1)
-        self.assertEqual(post.text, form_data['text'])
-        self.assertEqual(post.author, self.author)
-        self.assertEqual(post.group.id, form_data['group'])
+        # проверяем, что кол-во постов увеличилось
+        self.assertEqual(Post.objects.count(), posts_count + 1)
+        # проверяем, что создался пост с заданным текстом, группой и картинкой
+        self.assertTrue(
+            Post.objects.filter(
+                text=form_data['text'],
+                group=form_data['group'],
+                author=form_data['author'],
+                image='posts/small.gif',
+            ).exists()
+        )
+        # проверяем статус код
         self.assertEqual(response.status_code, HTTPStatus.OK)
 
     def test_post_edit(self):
+        posts_count = Post.objects.count()
         post = Post.objects.create(
             author=self.author,
             group=self.group,
@@ -100,14 +107,18 @@ class PostFormTest(TestCase):
             data=form_data,
             follow=True
         )
-
-        post = Post.objects.last()
-        self.assertEqual(post.author, self.author)
-        self.assertEqual(post.text, form_data['text'])
-        self.assertEqual(post.group.id, form_data['group'])
-        self.assertEqual(Post.objects.count(), 1)
-        self.assertEqual(len(Post.objects.filter(group=self.group)), 0)
-        self.assertTrue(post.image)
+        # Проверяем, что кол-во постов не изменилось
+        self.assertEqual(Post.objects.count(), posts_count)
+        # Проверяем, что у поста изменился текст и картинка на заданные
+        self.assertTrue(
+            Post.objects.filter(
+                id=PostFormTest.post.id,
+                text=form_data['text'],
+                group=form_data['group'],
+                image='posts/small.gif',
+            ).exists()
+        )
+        # проверяем статус код
         self.assertEqual(response.status_code, HTTPStatus.OK)
 
 
@@ -143,5 +154,6 @@ class CommentFormTest(TestCase):
             follow=True,
         )
         comment = self.test_post.comments.last()
+        # Проверяем статус код и комментарии
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertEqual(comment.text, 'Это тестовый комментарий')

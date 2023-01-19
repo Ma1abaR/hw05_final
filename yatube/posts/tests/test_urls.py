@@ -52,19 +52,19 @@ class PostURLTests(TestCase):
             reverse('posts:index'): 'posts/index.html',
             reverse(
                 'posts:group_list',
-                kwargs={'slug': PostURLTests.group.slug}
+                kwargs={'slug': PostURLTests.self.group.slug}
             ): 'posts/group_list.html',
             reverse(
                 'posts:profile',
-                kwargs={'username': PostURLTests.user.username}
+                kwargs={'username': PostURLTests.self.user.username}
             ): 'posts/profile.html',
             reverse(
                 'posts:post_detail',
-                kwargs={'post_id': PostURLTests.post.id}
+                kwargs={'post_id': PostURLTests.self.post.id}
             ): 'posts/post_detail.html',
             reverse(
                 'posts:post_edit',
-                kwargs={'post_id': PostURLTests.post.id}
+                kwargs={'post_id': PostURLTests.self.post.id}
             ): 'posts/create_post.html',
             reverse('posts:post_create'): 'posts/create_post.html',
             reverse('posts:follow_index'): 'posts/follow.html'
