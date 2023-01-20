@@ -88,11 +88,13 @@ class TestsViewsPosts(TestCase):
         self.assertIn('page_obj', response.context)
 
     def test_group_posts_show_correct_context(self):
-        """Шаблон group_list.html сформирован с правильным контекстом и пост в нужной группе"""
+        """Шаблон group_list сформирован с правильно и пост в нужной группе"""
         group1 = Group.objects.create(title='group1', slug='slug1')
         group2 = Group.objects.create(title='group2', slug='slug2')
 
-        post1 = Post.objects.create(group=group1, text='test-text', author=self.user)
+        post1 = Post.objects.create(group=group1,
+                                    text='test-text',
+                                    author=self.user)
         Post.objects.create(group=group2, text='test-text', author=self.user)
         Post.objects.create(text='test-text', author=self.user)
 
@@ -292,4 +294,3 @@ class FollowTests(TestCase):
         self.assertContains(response, self.post.text, status_code=200)
         response = self.guest_client.get(reverse('posts:follow_index'))
         self.assertNotContains(response, self.post.text, status_code=200)
-

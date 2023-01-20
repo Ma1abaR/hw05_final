@@ -51,7 +51,6 @@ class PostFormTest(TestCase):
             content_type='image/gif',
         )
 
-
     def test_post_create(self):
         posts_count = Post.objects.count()
         form_data = {
@@ -69,7 +68,7 @@ class PostFormTest(TestCase):
         self.assertRedirects(
             response,
             reverse('posts:profile',
-            kwargs={'username': self.author.username})
+                    kwargs={'username': self.author.username})
         )
         # проверяем, что кол-во постов увеличилось
         self.assertEqual(Post.objects.count(), posts_count + 1)
@@ -86,7 +85,6 @@ class PostFormTest(TestCase):
         self.assertEqual(response.status_code, HTTPStatus.OK)
 
     def test_post_edit(self):
-        posts_count = Post.objects.count()
         post = Post.objects.create(
             author=self.author,
             group=self.group,
@@ -160,7 +158,10 @@ class CommentFormTest(TestCase):
             'text': 'Test text'
         }
         self.assertEqual(self.test_post.comments.count(), 0)
-        response = self.authorized_client.post(self.url_add_comment, data=form_data)
+        response = self.authorized_client.post(
+            self.url_add_comment,
+            data=form_data
+        )
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
         self.assertEqual(self.test_post.comments.count(), 1)
 
