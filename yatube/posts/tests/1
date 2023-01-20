@@ -1,0 +1,86 @@
+WARNING: Running pip as root will break packages and permissions. You should install packages reliably by using venv: https://pip.pypa.io/warnings/venv
+----------------------- Проверка flake8 пройдена -----------------------
+
+============================= test session starts ==============================
+platform linux -- Python 3.7.4, pytest-6.2.4, py-1.10.0, pluggy-0.13.1 -- /usr/local/bin/python
+django: settings: yatube.settings (from env)
+rootdir: /app, configfile: pytest.ini
+plugins: Faker-12.0.1, django-4.4.0, pythonpath-0.7.3
+collecting ... collected 28 items
+
+yatube/posts/tests/test_forms.py::PostFormTest::test_post_create PASSED  [  3%]
+yatube/posts/tests/test_forms.py::PostFormTest::test_post_edit PASSED    [  7%]
+yatube/posts/tests/test_forms.py::CommentFormTest::test_add_comment PASSED [ 10%]
+yatube/posts/tests/test_forms.py::CommentFormTest::test_add_comment_valid PASSED [ 14%]
+yatube/posts/tests/test_models.py::PostModelTest::test_group_model_have_correct_object_names PASSED [ 17%]
+yatube/posts/tests/test_models.py::PostModelTest::test_post_model_have_correct_object_names PASSED [ 21%]
+yatube/posts/tests/test_urls.py::PostURLTests::test_group_list_exists_at_desired_location PASSED [ 25%]
+yatube/posts/tests/test_urls.py::PostURLTests::test_home_url_exists_at_desired_location PASSED [ 28%]
+yatube/posts/tests/test_urls.py::PostURLTests::test_post_create_url_redirect_anonymous_on_admin_login PASSED [ 32%]
+yatube/posts/tests/test_urls.py::PostURLTests::test_post_detail_exists_at_desired_location PASSED [ 35%]
+yatube/posts/tests/test_urls.py::PostURLTests::test_post_edit_url_redirect_not_author_on_post_detail PASSED [ 39%]
+yatube/posts/tests/test_urls.py::PostURLTests::test_profile_exists_at_desired_location PASSED [ 42%]
+yatube/posts/tests/test_urls.py::PostURLTests::test_urls_uses_correct_template PASSED [ 46%]
+yatube/posts/tests/test_urls.py::PostURLTests::test_urls_uses_correct_unexisting_page PASSED [ 50%]
+yatube/posts/tests/test_views.py::TestsViewsPosts::test_add_comment_show_correct_context PASSED [ 53%]
+yatube/posts/tests/test_views.py::TestsViewsPosts::test_created_posts_shows_on_different_pages PASSED [ 57%]
+yatube/posts/tests/test_views.py::TestsViewsPosts::test_group_posts_show_correct_context PASSED [ 60%]
+yatube/posts/tests/test_views.py::TestsViewsPosts::test_index_show_correct_context PASSED [ 64%]
+yatube/posts/tests/test_views.py::TestsViewsPosts::test_pages_use_correct_templates PASSED [ 67%]
+yatube/posts/tests/test_views.py::TestsViewsPosts::test_post_create_show_correct_context PASSED [ 71%]
+yatube/posts/tests/test_views.py::TestsViewsPosts::test_post_detail_show_correct_context PASSED [ 75%]
+yatube/posts/tests/test_views.py::TestsViewsPosts::test_post_edit_show_correct_context PASSED [ 78%]
+yatube/posts/tests/test_views.py::TestsViewsPosts::test_profile_show_correct_context PASSED [ 82%]
+yatube/posts/tests/test_views.py::PaginatorViewsTest::test_firsts_page_contains_ten_records PASSED [ 85%]
+yatube/posts/tests/test_views.py::PaginatorViewsTest::test_second_page_contains_ten_records PASSED [ 89%]
+yatube/posts/tests/test_views.py::IndexCacheTests::test_cache_index_page PASSED [ 92%]
+yatube/posts/tests/test_views.py::FollowTests::test_follow_unfollow PASSED [ 96%]
+yatube/posts/tests/test_views.py::FollowTests::test_view_new_follow_post PASSED [100%]
+
+============================== 28 passed in 1.86s ==============================
+-------------------- Проверка ваших тестов пройдена --------------------
+
+============================= test session starts ==============================
+platform linux -- Python 3.7.4, pytest-6.2.4, py-1.10.0, pluggy-0.13.1 -- /usr/local/bin/python
+django: settings: yatube.settings (from env)
+rootdir: /app, configfile: pytest.ini
+plugins: Faker-12.0.1, django-4.4.0, pythonpath-0.7.3
+collecting ... collected 31 items
+
+tests/test_paginator.py::TestGroupPaginatorView::test_group_paginator_view_get PASSED [  3%]
+tests/test_paginator.py::TestGroupPaginatorView::test_group_paginator_not_in_context_view PASSED [  6%]
+tests/test_paginator.py::TestGroupPaginatorView::test_index_paginator_not_in_view_context PASSED [  9%]
+tests/test_paginator.py::TestGroupPaginatorView::test_index_paginator_view PASSED [ 12%]
+tests/test_paginator.py::TestGroupPaginatorView::test_profile_paginator_view PASSED [ 16%]
+tests/test_about.py::TestTemplateView::test_about_author_tech PASSED     [ 19%]
+tests/test_auth_urls.py::TestAuthUrls::test_auth_urls PASSED             [ 22%]
+tests/test_comment.py::TestComment::test_comment_add_view PASSED         [ 25%]
+tests/test_comment.py::TestComment::test_comment_add_auth_view PASSED    [ 29%]
+tests/test_create.py::TestCreateView::test_create_view_get PASSED        [ 32%]
+tests/test_create.py::TestCreateView::test_create_view_post PASSED       [ 35%]
+tests/test_follow.py::TestFollow::test_follow_not_auth PASSED            [ 38%]
+tests/test_follow.py::TestFollow::test_follow_auth PASSED                [ 41%]
+tests/test_homework.py::TestPost::test_post_create PASSED                [ 45%]
+tests/test_homework.py::TestGroup::test_group_create PASSED              [ 48%]
+tests/test_homework.py::TestGroupView::test_group_view PASSED            [ 51%]
+tests/test_homework.py::TestCustomErrorPages::test_custom_404 FAILED     [ 54%]
+tests/test_homework.py::TestCustomErrorPages::test_custom_403 PASSED     [ 58%]
+tests/test_post.py::TestPostView::test_index_post_with_image PASSED      [ 61%]
+tests/test_post.py::TestPostView::test_index_post_caching PASSED         [ 64%]
+tests/test_post.py::TestPostView::test_post_view_get PASSED              [ 67%]
+tests/test_post.py::TestPostEditView::test_post_edit_view_get PASSED     [ 70%]
+tests/test_post.py::TestPostEditView::test_post_edit_view_author_get PASSED [ 74%]
+tests/test_post.py::TestPostEditView::test_post_edit_view_author_post PASSED [ 77%]
+tests/test_profile.py::TestProfileView::test_profile_view_get PASSED     [ 80%]
+tests/test_comment.py::TestComment::test_comment_model PASSED            [ 83%]
+tests/test_follow.py::TestFollow::test_follow[author] PASSED             [ 87%]
+tests/test_follow.py::TestFollow::test_follow[user] PASSED               [ 90%]
+tests/test_homework.py::TestPost::test_post_model PASSED                 [ 93%]
+tests/test_homework.py::TestPost::test_post_admin PASSED                 [ 96%]
+tests/test_homework.py::TestGroup::test_group_model PASSED               [100%]
+
+=================================== FAILURES ===================================
+/app/tests/test_homework.py:265: AssertionError: Убедитесь, что для несуществующих адресов страниц, сервер возвращает код 404
+=========================== short test summary info ============================
+FAILED tests/test_homework.py::TestCustomErrorPages::test_custom_404 - Assert...
+========================= 1 failed, 30 passed in 3.30s =========================
