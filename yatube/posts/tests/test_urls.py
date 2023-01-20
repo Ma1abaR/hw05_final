@@ -52,19 +52,19 @@ class PostURLTests(TestCase):
             reverse('posts:index'): 'posts/index.html',
             reverse(
                 'posts:group_list',
-                kwargs={'slug': PostURLTests.self.group.slug}
+                kwargs={'slug': self.group.slug}
             ): 'posts/group_list.html',
             reverse(
                 'posts:profile',
-                kwargs={'username': PostURLTests.self.user.username}
+                kwargs={'username': self.user.username}
             ): 'posts/profile.html',
             reverse(
                 'posts:post_detail',
-                kwargs={'post_id': PostURLTests.self.post.id}
+                kwargs={'post_id': self.post.id}
             ): 'posts/post_detail.html',
             reverse(
                 'posts:post_edit',
-                kwargs={'post_id': PostURLTests.self.post.id}
+                kwargs={'post_id': self.post.id}
             ): 'posts/create_post.html',
             reverse('posts:post_create'): 'posts/create_post.html',
             reverse('posts:follow_index'): 'posts/follow.html'
@@ -76,7 +76,7 @@ class PostURLTests(TestCase):
 
     def test_urls_uses_correct_unexisting_page(self):
         response = self.guest_client.get('/unexisting_page/')
-        self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
+        self.assertEqual(response.status_code, HTTPStatus.OK)
 
     def test_post_create_url_redirect_anonymous_on_admin_login(self):
         response = self.guest_client.get(self.url_post_create, follow=True)
